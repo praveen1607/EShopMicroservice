@@ -35,8 +35,12 @@ namespace Catalog.API.Products.CreateProduct
             RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
         }
     }
-    public class CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger) : ICommandHandler<CreateProductCommand, CreateProductResult>
-            //public class CreateProductCommandHandler(IDocumentSession session, IValidator<CreateProductCommand> validator) : ICommandHandler<CreateProductCommand, CreateProductResult>
+
+    public class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
+     // below we used the Ilogger before using global hanlder using MediaTR
+    //public class CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger) : ICommandHandler<CreateProductCommand, CreateProductResult>
+    //below we used this for validation Ivalidator at each class before moving to mediatr
+    //public class CreateProductCommandHandler(IDocumentSession session, IValidator<CreateProductCommand> validator) : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         /// <summary>
         /// Handles the creation of a new product.
@@ -51,7 +55,6 @@ namespace Catalog.API.Products.CreateProduct
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
 
-            logger.LogInformation("CreateProductCommandHandler.Handle called with {@Command}", command);
             //var result = await validator.ValidateAsync(command, cancellationToken);
             //var errors = result.Errors.Select(x => x.ErrorMessage).ToList();
             //if (errors.Any())
